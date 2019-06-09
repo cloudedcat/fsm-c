@@ -5,7 +5,7 @@
 #if defined DEBUG
 #define LOG(fmt, ...)    printf("DEBUG: " #fmt " \n", __VA_ARGS__);
 #else
-#define LOG(fmt, ...)    /* empty when debugging disabled */
+#define LOG(fmt, ...)
 #endif
 
 typedef void (*ev_callback) (void *context, void *event_payload);

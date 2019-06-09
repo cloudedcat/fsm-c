@@ -1,6 +1,8 @@
 #include <stdlib.h>
 #include <fsm.h>
 
+#define NELEMS(x)  (sizeof(x) / sizeof((x)[0]))
+
 #define ST_CAP 7
 #define EV_CAP 7
 
@@ -38,8 +40,8 @@ int main() {
     struct context ctx = {0,1};
     FSM_INIT(STUPID_MACHINE, sm, &ctx, STATE_READ_INTEGER);
 
-    char *payload = "228";
-    for (int i = 0; i < 3; i++) {
+    char *payload = "2.71828";
+    for (int i = 0; i < NELEMS(payload); i++) {
         sm->push_ev_payload(sm, &payload[i]);
     }
     printf("Result: %d/%d\n", ctx.divident, ctx.divisor);
