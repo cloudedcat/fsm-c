@@ -20,7 +20,6 @@ struct state_machine {
     int state_cap;
     void *context;
     transition *transitions; // manual indexation
-    ev_callback *callbacks;
     int (*find_ev_type) (void *);
     int (*push_ev) (struct state_machine *sm, int event);
     int (*push_ev_payload) (struct state_machine *sm, void *payload);
@@ -56,10 +55,7 @@ int push_ev_payload(struct state_machine *sm, void *ev_payload) {
 }
 
 #define FSM_REG_BEGIN(name, _find_ev_type, _state_cap, event_cap) \
- \
-typedef state_machine name;\
 static transition name##_transitions[_state_cap*event_cap]; \
-static ev_callback name##_callbacks[event_cap];\
 \
 void name##_init(state_machine *sm, void *context, int start_state) { \
     sm->context = context; \
@@ -69,7 +65,6 @@ void name##_init(state_machine *sm, void *context, int start_state) { \
     sm->find_ev_type = _find_ev_type; \
     sm->push_ev_payload = push_ev_payload; \
     sm->transitions = name##_transitions; \
-    sm->callbacks = name##_callbacks; \
     static int called; \
     if (called) return; \
     called = 1; \
